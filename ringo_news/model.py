@@ -16,8 +16,8 @@ the news the entry in this table can be removed"""
 
 class NewsFactory(BaseFactory):
 
-    def create(self, user=None):
-        new_item = BaseFactory.create(self, user)
+    def create(self, user=None, request=None):
+        new_item = BaseFactory.create(self, user, request)
         return new_item
 
 
