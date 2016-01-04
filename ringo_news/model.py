@@ -36,6 +36,7 @@ class News(BaseItem, Base):
     # Define relations to other tables
     subject = sa.Column(sa.String)
     text = sa.Column(sa.Text)
+    date = sa.Column(sa.Date)
 
     users = sa.orm.relationship("User",
                                 secondary=nm_news_user,
