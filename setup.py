@@ -5,7 +5,7 @@ version = '0.0'
 
 setup(name='ringo_news',
       version=version,
-      description="Extension for the ringo webframework",
+      description="News extension for the ringo framework",
       long_description="""""",
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='ringo pyramid extension',
