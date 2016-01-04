@@ -1,11 +1,12 @@
 {
     "overview": {
         "columns": [
-            {"name": "updated", "label": "Updated", "width": "150"},
-            {"name": "subject", "label": "Subject"}
+            {"name": "date", "label": "Date", "width": "150"},
+            {"name": "subject", "label": "Subject"},
+            {"name": "users", "label": "Users"}
         ],
         "settings": {
-            "default-sort-field": "updated",
+            "default-sort-field": "date",
             "default-sort-order": "desc",
             "auto-responsive": false
         }
