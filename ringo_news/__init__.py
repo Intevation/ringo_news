@@ -13,11 +13,11 @@ log = logging.getLogger(__name__)
 
 modul_config = {
     "name": "news",
-    "label": "",
     "clazzpath": "ringo_news.model.News",
-    "label_plural": "",
-    "str_repr": "",
-    "display": "",
+    "label": "News",
+    "label_plural": "News",
+    "str_repr": "%s|subject",
+    "display": "admin-menu",
     "actions": ["list", "read", "update", "create", "delete"]
 }
 
