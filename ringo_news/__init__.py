@@ -36,3 +36,4 @@ def includeme(config):
     config.add_route(get_action_routename(News, 'markasread', prefix="rest"),
                      'rest/news/{id}/markasread',
                      factory=get_resource_factory(News))
+    config.scan()
