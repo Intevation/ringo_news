@@ -2,50 +2,38 @@
 import datetime
 from ringo.lib.helpers import prettify
 %>
-<table id="newslisting" class="table table-condensed table-striped table-bordered">
+<table id="newslisting" class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
-      % for field in tableconfig.get_columns():
-      <th width="${field.get('width')}">${_(field.get('label'))}</th>
-      % endfor
+      <th>${_('Date')}</th>
+      <th>${_('Subject')}</th>
       ##<th width="10"><a href="#" class="linkmarkallasread"><span class="glyphicon glyphicon-check"></span></a></th>
       <th width="10"><span class="glyphicon glyphicon-check"></span></th>
     </tr>
   </thead>
   <tbody>
-    % for item in items:
+    % for newsitem in news:
     <%
       url = None
-      if s.has_permission("update", item, request):
-        url = request.route_path(h.get_action_routename(item, "update"), id=item.id)
-      elif s.has_permission("read", item, request):
-        url = request.route_path(h.get_action_routename(item, "read"), id=item.id)
+      if s.has_permission("update", newsitem, request):
+        url = request.route_path(h.get_action_routename(newsitem, "update"), id=newsitem.id)
+      elif s.has_permission("read", newsitem, request):
+        url = request.route_path(h.get_action_routename(newsitem, "read"), id=newsitem.id)
     %>
-    <tr id="newsentry_${item.id}">
-      % for field in tableconfig.get_columns():
-      % if url:
-      <td class="link">
-      % else:
+    <tr id="newsentry_${newsitem.id}">
       <td>
-      % endif
-          <%
-            try:
-              value = prettify(request, getattr(item, field.get('name')))
-            except AttributeError:
-              value = "NaF"
-          %>
-          <a href="${url}">
-          ## Escape value here
-          % if isinstance(value, list):
-            ${", ".join(unicode(v) for v in value) | h}
-          % else:
-            ${value}
-          % endif
-          </a>
+        ${prettify(request, newsitem.date)}
       </td>
-      % endfor
       <td>
-        % if s.has_permission("read", item, request):
+        % if url:
+          <a href="${url}">${prettify(request, newsitem.subject)}</a>
+        % else:
+          ${prettify(request, newsitem.subject)}
+        % endif
+
+      </td>
+      <td>
+        % if s.has_permission("read", newsitem, request):
           <a href="#" class="linkmarkasread"><span class="glyphicon glyphicon-check"></span></a></td>
         % endif
     </tr>
@@ -54,18 +42,19 @@ from ringo.lib.helpers import prettify
 </table>
 
 <script>
+var application_path = getApplicationPath();
+var language = getDTLanguage(getLanguageFromBrowser());
 var newslist = $('#newslisting').dataTable( {
        "oLanguage": {
-            "sUrl": "/static/js/datatables/i18n/"+getLanguageFromBrowser()+".json"
+         "sUrl":  application_path + "/ringo-static/js/datatables/i18n/"+language+".json"
        },
-       "bPaginate": true,
-       "sPaginationType": "full_numbers",
-       "bLengthChange": true,
-       "bFilter": true,
+       "bPaginate": false,
+       "bLengthChange": false,
+       "bFilter": false,
        "bSort": true,
        /* Disable initial sort */
        "aaSorting": [],
-       "bInfo": true,
+       "bInfo": false,
        "bAutoWidth": true
  });
 
