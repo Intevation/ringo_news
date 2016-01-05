@@ -12,11 +12,21 @@ log = logging.getLogger(__name__)
 
 def get_news(request):
     """Returns a list of News items which are attached to the current
-    user of the request. If the user marks the news as read, the news
-    willl get detached form the user and is not listed anymore."""
+    user of the request. The news are sorted by the date of the news.
+    Recent news comes before older news. News with the same date are
+    ordered by their internal id in descendig order. If the user marks
+    the news as read, the news willl get detached form the user and is
+    not listed anymore."""
+
+    # Custom sort function with will sort the new based on their date
+    # and id.
+    def compare(b, a):
+        return cmp(a.date, b.date) or cmp(a.id, b.id)
+
     if not request.user:
         return []
     else:
+        request.user.news.sort(compare)
         return request.user.news
 
 
