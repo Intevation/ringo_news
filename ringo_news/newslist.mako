@@ -5,32 +5,18 @@ from ringo.lib.helpers import prettify
 <table id="newslisting" class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
-      <th>${_('Date')}</th>
-      <th>${_('Subject')}</th>
+      <th>${_('News')}</th>
       ##<th width="10"><a href="#" class="linkmarkallasread"><span class="glyphicon glyphicon-check"></span></a></th>
       <th width="10"><span class="glyphicon glyphicon-check"></span></th>
     </tr>
   </thead>
   <tbody>
     % for newsitem in news:
-    <%
-      url = None
-      if s.has_permission("update", newsitem, request):
-        url = request.route_path(h.get_action_routename(newsitem, "update"), id=newsitem.id)
-      elif s.has_permission("read", newsitem, request):
-        url = request.route_path(h.get_action_routename(newsitem, "read"), id=newsitem.id)
-    %>
     <tr id="newsentry_${newsitem.id}">
       <td>
-        ${prettify(request, newsitem.date)}
-      </td>
-      <td>
-        % if url:
-          <a href="${url}">${prettify(request, newsitem.subject)}</a>
-        % else:
-          ${prettify(request, newsitem.subject)}
-        % endif
-
+        <strong>${prettify(request, newsitem.date)} ${prettify(request, newsitem.subject)}</strong>
+        <p>${newsitem.text.replace('\n', '<br>') | n}
+        </p>
       </td>
       <td>
         % if s.has_permission("read", newsitem, request):
