@@ -2,6 +2,8 @@
 import datetime
 from ringo.lib.helpers import prettify
 %>
+% if news:
+<h2>${_('News')}</h2>
 <table id="newslisting" class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
@@ -83,3 +85,4 @@ function markNewsAsRead(row, id) {
   });
 };
 </script>
+%endif
