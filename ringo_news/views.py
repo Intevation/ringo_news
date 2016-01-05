@@ -10,6 +10,16 @@ from ringo_news import News
 log = logging.getLogger(__name__)
 
 
+def get_news(request):
+    """Returns a list of News items which are attached to the current
+    user of the request. If the user marks the news as read, the news
+    willl get detached form the user and is not listed anymore."""
+    if not request.user:
+        return []
+    else:
+        return request.user.news
+
+
 def _mark_news_as_read(request, item):
     """Will mark the given news item as read for the current user of the
     request.
