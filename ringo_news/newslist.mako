@@ -1,13 +1,14 @@
 <%
 import datetime
 from ringo.lib.helpers import prettify
+from ringo_news.model import News
 %>
 % if news:
-<h2>${_('News')}</h2>
+  <h2>${_(h.get_item_modul(request, News).get_label(plural=True))}</h2>
 <table id="newslisting" class="table table-condensed table-striped table-hover">
   <thead>
     <tr>
-      <th>${_('News')}</th>
+      <th>${_(h.get_item_modul(request, News).get_label())}</th>
       <th width="10"><span class="glyphicon glyphicon-check"></span></th>
     </tr>
   </thead>
