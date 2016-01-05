@@ -22,7 +22,7 @@ from ringo_news.model import News
       </td>
       <td>
         % if s.has_permission("read", newsitem, request):
-          <a href="#" class="linkmarkasread" title="${_('Mark this news as read')}"><span class="glyphicon glyphicon-check"></span></a></td>
+          <a href="#" class="linkmarkasread" title="${_('Mark this item as read')}"><span class="glyphicon glyphicon-check"></span></a></td>
         % endif
     </tr>
     % endfor
