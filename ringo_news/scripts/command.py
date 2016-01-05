@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
+import os
+import argparse
+import transaction
+from ringo.model.user import User
+from ringo.scripts.db import (
+    do_import,
+    get_importer,
+    get_session
+)
+from ringo_news.model import News
 
 
 def add_news_parser(subparsers, parent):
@@ -20,8 +30,38 @@ def add_news_parser(subparsers, parent):
 
 
 def handle_add_command(args):
-    print "Add"
+    path = []
+    path.append(args.config)
+    session = get_session(os.path.join(*path))
+    importer = get_importer(session, 'news', 'json')
+    # On default all users will see new added items.
+    users = session.query(User).all()
+    with open(args.jsonfile) as f:
+        data = f.read()
+        items, created, updated = do_import(session, importer, data,
+                                            use_uuid=False)
+        for item, action in items:
+            # Add all new items to the session
+            if action.find("CREATE") > -1:
+                item.users = users
+
+    try:
+        transaction.commit()
+        print "Updated %s news, Created %s news" % (updated, created)
+    except Exception as e:
+        print str(e)
+        print "Loading data failed!"
 
 
 def handle_del_command(args):
-    print "Del"
+    path = []
+    path.append(args.config)
+    session = get_session(os.path.join(*path))
+    try:
+        item = session.query(News).filter(News.id == args.id).one()
+        session.delete(item)
+        transaction.commit()
+        print "Succesfully deleted"
+    except Exception as e:
+        print str(e)
+        print "Can not delete!"
