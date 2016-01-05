@@ -38,7 +38,7 @@ var newslist = $('#newslisting').dataTable( {
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
-       "bSort": false,
+       "bSort": true,
        /* Disable initial sort */
        "aaSorting": [],
        "bInfo": false,
