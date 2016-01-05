@@ -20,7 +20,7 @@ from ringo.lib.helpers import prettify
       </td>
       <td>
         % if s.has_permission("read", newsitem, request):
-          <a href="#" class="linkmarkasread"><span class="glyphicon glyphicon-check"></span></a></td>
+          <a href="#" class="linkmarkasread" title="${_('Mark this news as read')}"><span class="glyphicon glyphicon-check"></span></a></td>
         % endif
     </tr>
     % endfor
