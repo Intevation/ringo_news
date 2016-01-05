@@ -8,7 +8,6 @@ from ringo.lib.helpers import prettify
   <thead>
     <tr>
       <th>${_('News')}</th>
-      ##<th width="10"><a href="#" class="linkmarkallasread"><span class="glyphicon glyphicon-check"></span></a></th>
       <th width="10"><span class="glyphicon glyphicon-check"></span></th>
     </tr>
   </thead>
