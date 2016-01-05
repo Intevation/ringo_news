@@ -3,8 +3,7 @@
 import logging
 from pyramid.view import view_config
 from ringo.lib.helpers import get_action_routename
-from ringo.views.base.read import rest_read, read
-from ringo.views.base.update import update
+from ringo.views.base.read import rest_read
 from ringo_news import News
 
 log = logging.getLogger(__name__)
@@ -68,21 +67,3 @@ def read_callback(request, item):
              permission='read')
 def rest_markasread(request):
     return rest_read(request, callback=read_callback)
-
-
-# FIXME: Overwritten templates for News. These templates do not escape
-# the header as it might contain links. This is a security risk! (ti)
-# See https://bitbucket.org/ti/ringo/issue/66/add-link-fields-to-news-modul
-# <2014-08-28 12:20>
-@view_config(route_name=get_action_routename(News, 'read'),
-             renderer='/read.mako',
-             permission='read')
-def read_(request):
-    return read(request)
-
-
-@view_config(route_name=get_action_routename(News, 'update'),
-             renderer='/update.mako',
-             permission='update')
-def update_(request):
-    return update(request)
