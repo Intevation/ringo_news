@@ -1,7 +1,8 @@
 import sqlalchemy as sa
+from pyramid.security import Allow, Authenticated
+from ringo.lib.security import get_permissions
 from ringo.model import Base
 from ringo.model.base import BaseItem, BaseFactory
-from ringo.model.base import BaseItem
 
 
 nm_news_user = sa.Table(
@@ -41,6 +42,22 @@ class News(BaseItem, Base):
     users = sa.orm.relationship("User",
                                 secondary=nm_news_user,
                                 backref='news')
+
+    @classmethod
+    def _get_permissions(cls, modul, item, request):
+        """Returns custom privileges for news entries. As News do not
+        have an owner nor a group the default permisssion system of
+        Ringo would deny all access form users except from users with
+        admin role. So we need to overwrite the default persmissions.
+        News items should be readable by all authenticated users.
+
+        This means setting permissions on roles does not have any
+        effect!"""
+        # Default permissions (e.g allow admins access)
+        permissions = get_permissions(modul, item)
+        # Add custom read permission
+        permissions.append((Allow, Authenticated, 'read'))
+        return permissions
 
     @classmethod
     def get_item_factory(cls):
