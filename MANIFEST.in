@@ -1,0 +1,6 @@
+include README.md LICENSE
+recursive-include ringo_news/locale *.po *.mo *.pot README
+recursive-include ringo_news/scripts *.py
+recursive-include ringo_news/templates *.mako
+include ringo_news/news.json
+include ringo_news/news.xml
