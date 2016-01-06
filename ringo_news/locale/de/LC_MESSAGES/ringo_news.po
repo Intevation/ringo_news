@@ -42,5 +42,5 @@ msgstr "Inhalt"
 
 #: ringo_news/templates/newslist.mako:25
 msgid "Mark this item as read"
-msgstr "Markiere diesen Eintrag als gelesen"
+msgstr "Diesen Eintrag als gelesen Markieren"
 
