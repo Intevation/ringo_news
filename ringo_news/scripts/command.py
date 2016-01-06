@@ -21,6 +21,9 @@ def add_news_parser(subparsers, parent):
                                help=('Adds or Updates news items.'),
                                parents=[parent])
     add_parser.add_argument('jsonfile', help="JSON file with news")
+    add_parser.add_argument('--loadbyid',
+                            action="store_true",
+                            help="Load news by id and not by uuid")
     add_parser.set_defaults(func=handle_add_command)
     del_parser = sp.add_parser('del',
                                help=('Deletes a given news items.'),
@@ -39,7 +42,7 @@ def handle_add_command(args):
     with open(args.jsonfile) as f:
         data = f.read()
         items, created, updated = do_import(session, importer, data,
-                                            use_uuid=False)
+                                            use_uuid=(not args.loadbyid))
         for item, action in items:
             # Add all new items to the session
             if action.find("CREATE") > -1:
