@@ -29,11 +29,12 @@ def includeme(config):
 
     """
     modul = register_modul(config, modul_config)
-    News._modul_id = modul.get_value("id")
-    translators.append(TranslationStringFactory('ringo_news'))
-    config.add_translation_dirs('ringo_news:locale/')
+    if modul:
+        News._modul_id = modul.get_value("id")
+        translators.append(TranslationStringFactory('ringo_news'))
+        config.add_translation_dirs('ringo_news:locale/')
 
-    config.add_route(get_action_routename(News, 'markasread', prefix="rest"),
-                     'rest/news/{id}/markasread',
-                     factory=get_resource_factory(News))
-    config.scan()
+        config.add_route(get_action_routename(News, 'markasread', prefix="rest"),
+                         'rest/news/{id}/markasread',
+                         factory=get_resource_factory(News))
+        config.scan()
