@@ -41,8 +41,11 @@ def handle_add_command(args):
     users = session.query(User).all()
     with open(args.jsonfile) as f:
         data = f.read()
-        items, created, updated = do_import(session, importer, data,
-                                            use_uuid=(not args.loadbyid))
+        if args.loadbyid:
+            load_key = "id"
+        else:
+            load_key = "uuid"
+        items, created, updated = do_import(session, importer, data, load_key)
         for item, action in items:
             # Add all new items to the session
             if action.find("CREATE") > -1:
